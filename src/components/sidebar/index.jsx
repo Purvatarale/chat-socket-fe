@@ -152,6 +152,8 @@ const Sidebar = ({ chatCategories }) => {
           <DialogContent
             className="sm:max-w-[425px]"
             style={{ maxWidth: "600px", maxHeight: "75vh", overflowY: "auto" }}
+            selectedCategory={selectedCategory}  // Pass selectedCategory as prop
+        setSelectedCategory={setSelectedCategory}  // Pass setSelectedCategory as prop
           >
             <DialogHeader>
               <DialogTitle>Start a new Chat</DialogTitle>

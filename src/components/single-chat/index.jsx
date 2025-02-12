@@ -62,7 +62,7 @@ export default function SingleChat({ chatId }) {
             setMessage(e.target.value);
           }}
         ></Textarea>
-        <Button className="h-full" onClick={()=>sendMessage(message)} disabled={!socket}>
+        <Button className="h-full" onClick={()=>{ sendMessage(message); setMessage('')}} disabled={!socket}>
           <SendHorizontal />
         </Button>
       </div>
