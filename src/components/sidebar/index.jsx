@@ -18,32 +18,39 @@ import { useUser } from "../../context/user.context";
 import { useNavigate } from "react-router-dom";
 import useIsMobile from "../../utils/use-device";
 import { cn } from "../../utils";
+import {ICON_MAPPER} from "../../constants";
 
-const Sidebar = ({ chatCategories }) => {
+const Sidebar = ({flag}) => {
   const [search, setSearch] = React.useState("");
   const [searchedContacts, setSearchedContacts] = React.useState([]);
   const [contactsData, setContactsData] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const user = useUser();
   const router = useNavigate();
+  const { categories: chatCategories } = user;
+
+  const fetchChats = async () => {
+    try {
+      const { data } = await request.get(`/conversations/get-chats/${user.email}`);
+      setContactsData(data);
+    } catch (error) {
+      console.error('Error fetching chats:', error);
+    }
+  };
 
   // Fetching chats data without React Query
   React.useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        const { data } = await request.get(`/conversations/get-chats/${user.email}`);
-        setContactsData(data);
-      } catch (error) {
-        console.error('Error fetching chats:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     if (user?.email) {
       fetchChats();
+      setIsLoading(false);
     }
   }, [user]);
+
+  React.useEffect(() => {
+    if (flag) {
+      fetchChats();
+    }
+  }, [flag]);
 
   React.useEffect(() => {
     if (search) {
@@ -61,14 +68,14 @@ const Sidebar = ({ chatCategories }) => {
                 (c.name?.toLowerCase().includes(search.toLowerCase())) ||
                 (c.email?.toLowerCase().includes(search.toLowerCase())) ||
                 (c.description?.toLowerCase().includes(search.toLowerCase()))
-            )
+            ).sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
           : []
       );
 
     } else {
       setSearchedContacts(
         contactsData
-          ? contactsData.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          ? contactsData.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
           : []
       );
     }
@@ -138,7 +145,7 @@ const Sidebar = ({ chatCategories }) => {
         </>
       )}
 
-      {chatCategories.length > 0 && (
+      {chatCategories?.length > 0 && (
         <Dialog open={openModal} onOpenChange={(e) => setOpenModal(e)}>
           <DialogTrigger asChild>
             <Button className={`bg-blue-300 hover:bg-blue-200 rounded-full aspect-square fixed w-[50px] h-[50px]  bottom-5`}
@@ -173,7 +180,7 @@ const Sidebar = ({ chatCategories }) => {
                       onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#00000120")}
                       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#00000110")}
                     >
-                      <img src={category.icon} className="w-10 h-10" />
+                      <img src={ICON_MAPPER[category.icon]} className="w-10 h-10" />
                       <div className="flex flex-col">
                         <p className="font-bold">{category.title}</p>
                         <p className="text-sm text-gray-500">{category.description}</p>
@@ -194,7 +201,7 @@ const Sidebar = ({ chatCategories }) => {
                       onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#00000120")}
                       onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#00000110")}
                     >
-                      <img src={selectedCategory.icon} className="w-10 h-10" />
+                      <img src={ICON_MAPPER[selectedCategory.icon]} className="w-10 h-10" />
                       <div className="flex flex-col">
                         <p className="font-bold">{selectedCategory.title}</p>
                         <p className="text-sm text-gray-500">{selectedCategory.description}</p>

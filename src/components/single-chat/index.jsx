@@ -4,16 +4,17 @@ import { SendHorizontal } from "lucide-react";
 import ChatConversations from "./chat-conversations";
 import request from "../../utils/request";
 import { useEffect, useState } from "react";
-import { CHAT_CATEGORIES } from "../../constants";
 import { useUser } from "../../context/user.context";
 import Badge from "../badge";
 import useChatSocket from "../../hooks/use-chats.js";
+import { ICON_MAPPER } from "../../constants";
 
-export default function SingleChat({ chatId }) {
+export default function SingleChat({ chatId, setFlag }) {
   const [initialData, setData] = useState(null);
   const [message, setMessage] = useState("");
   const user = useUser();
-  const { messages: data, socket, sendMessage } = useChatSocket(chatId, initialData, setData);
+  const {categories: CHAT_CATEGORIES} = user;
+  const { messages: data, socket, sendMessage, count } = useChatSocket(chatId, initialData, setData);
 
   // console.log({messages: data});
 
@@ -32,11 +33,17 @@ export default function SingleChat({ chatId }) {
     fetchData();
   }, [chatId, user]);
 
+  useEffect(()=>{
+    setFlag(count);
+  },[data])
+
+  console.log({length: data?.messages})
+
   return (
     <div className="flex flex-col h-full bg-blue-100">
       <div className="flex flex-row gap-2 items-center px-2 w-full bg-blue-200 basis-[12.5%] rounded-t-[12px]">
         <img
-          src={chatCategory?.icon}
+          src={ICON_MAPPER[chatCategory?.icon]}
           className="rounded-full w-[50px] aspect-square "
         />
         <div className="flex flex-col">
@@ -62,7 +69,7 @@ export default function SingleChat({ chatId }) {
             setMessage(e.target.value);
           }}
         ></Textarea>
-        <Button className="h-full" onClick={()=>{ sendMessage(message); setMessage('')}} disabled={!socket}>
+        <Button className="h-full" onClick={()=>{ sendMessage(message); setMessage('');}} disabled={!socket}>
           <SendHorizontal />
         </Button>
       </div>

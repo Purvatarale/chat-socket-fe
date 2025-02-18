@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
-import backButton from "../../assets/images/back-button.png";
+import { X, MoveLeft } from "lucide-react";
 import { cn } from "../../utils";
 import { Button } from "../../modules/ui/button";
 
@@ -41,14 +40,11 @@ const DialogContent = React.forwardRef(
       >
          {/* Back Button */}
          {selectedCategory && (
-          <Button
-            className="absolute top-2 left-2 w-6 h-6 bg-black text-white rounded-full flex items-center justify-center p-0"
+            <MoveLeft
             onClick={() => {
               setSelectedCategory(null); // Reset category selection when back button is clicked
-            }}
-          >
-            <img src={backButton} alt="Back" className="w-4 h-4 rotate-90" />
-          </Button>
+            }}/>
+
         )}
 
         {children}

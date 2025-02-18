@@ -1,5 +1,7 @@
 import moment from "moment";
-import Badge from '../badge'
+import Badge from '../badge';
+import { ICON_MAPPER } from "../../constants";
+
 export default function ChatContact({ contact, categories }) {
   const { image, name, lastMessage, updatedAt, description } = contact;
   const category = categories.find(
@@ -8,7 +10,7 @@ export default function ChatContact({ contact, categories }) {
   return (
     <div className="flex flex-row gap-2 items-center py-1 px-2 hover:bg-[#00000110] transition-all cursor-pointer rounded">
       <img
-        src={category?.icon}
+        src={ICON_MAPPER[category?.icon]}
         alt={category?.title}
         className="rounded-full aspect-square w-[50px]"
       />

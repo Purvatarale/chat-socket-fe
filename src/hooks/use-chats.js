@@ -6,6 +6,16 @@ import { useUser } from "../context/user.context";
 const useChatSocket = (chatId, messages, setMessages) => {
   const [socket, setSocket] = useState(null);
   const { email } = useUser();
+  const [count, setCount] = useState(0);
+
+  useEffect(()=>{
+    
+    if(messages){
+      console.log(messages);
+      setCount(messages.count);
+    }
+
+  },[messages])
 
   useEffect(() => {
     if (!chatId) return;
@@ -36,6 +46,9 @@ const useChatSocket = (chatId, messages, setMessages) => {
         timestamp: formatTime(new Date(receivedMessage.timestamp)),
         type: receivedMessage.type,
       };
+
+      setCount(count+1);
+
       const dateKey = formatDate(new Date(receivedMessage.timestamp));
 
       console.log(formattedMessage)
@@ -104,7 +117,7 @@ const useChatSocket = (chatId, messages, setMessages) => {
       }
     };
 
-  return { socket, messages, sendMessage };
+  return { socket, messages, sendMessage, count };
 };
 
 export default useChatSocket;

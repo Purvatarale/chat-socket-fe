@@ -2,6 +2,7 @@
   "name": "@iitb/chat",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/b/chats",
   "dependencies": {
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-dialog": "^1.1.2",

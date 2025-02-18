@@ -7,21 +7,10 @@ import { useUser } from "../../context/user.context";
 import useIsMobile from "../../utils/use-device";
 import { cn } from "../../utils";
 
-const ChatLayout = ({ children, singleChat }) => {
-  const [chatCategories, setChatCategories] = useState([]);
+const ChatLayout = ({ children, singleChat, flag }) => {
   const user = useUser();
   const isMobile = useIsMobile();
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await request.get("categories");
-        setChatCategories(response.data);
-      } catch (error) {
-        console.error("Failed to fetch chat categories:", error);
-      }
-    })();
-  }, [user]);
-
+  
   return (
     <GlobalLayout>
       {!isMobile ? (
@@ -29,7 +18,7 @@ const ChatLayout = ({ children, singleChat }) => {
         <Navbar />
         <div className="flex flex-row gap-2 p-2 h-[90vh] max-h-[90vh] border-2 border-orange-100">
           <div className={cn(`basis-[30%] w-full h-[88vh] max-h-[88vh] overflow-y-scroll`)}>
-            <Sidebar chatCategories={chatCategories} />
+            <Sidebar flag={flag} />
           </div>
           <div className={cn(`border-2 border-green-100 basis-[75%] w-full h-[88vh] max-h-[88vh] overflow-y-scroll`)}>
             {children}
@@ -48,7 +37,7 @@ const ChatLayout = ({ children, singleChat }) => {
             </div>
           ) : (
           <div className={cn(`basis-[100%] w-full h-[88vh] max-h-[88vh] overflow-y-scroll`)}>
-            <Sidebar chatCategories={chatCategories} />
+            <Sidebar />
             </div>
           )}
         </div>
