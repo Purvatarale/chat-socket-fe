@@ -7,7 +7,7 @@ import { UserProvider } from "./context/user.context";
 function App() {
   return (
     <UserProvider>
-      <BrowserRouter basename='/b/chats'>
+      <BrowserRouter basename='/b/chats' future={{ v7_startTransition: true, v_relativeSplatPath: true }}>
         <Routes>
           <Route path="/" element={<LandingPage/>} />
           <Route path="/:chatId" element={<ChatPage/>} />
