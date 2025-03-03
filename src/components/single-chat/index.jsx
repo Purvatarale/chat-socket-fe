@@ -30,14 +30,16 @@ export default function SingleChat({ chatId, setFlag }) {
     : null;
 
   useEffect(() => {
-    fetchData();
+    if(chatId && user?.email) {
+
+      fetchData();
+    }
   }, [chatId, user]);
 
   useEffect(()=>{
-    setFlag(count);
+    if(data)
+      setFlag(count);
   },[data])
-
-  console.log({length: data?.messages})
 
   return (
     <div className="flex flex-col h-full bg-blue-100">
