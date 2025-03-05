@@ -42,8 +42,9 @@ export default function ChatConversations({ chats }) {
                 }}
               >
                 {message.timestamp}
-{message.agentData && (
-  <span>{agentData.name}</span>) }
+                {console.log(message)}
+{message.agentData?.name && (
+  <span>⦿ {message.agentData.name}</span>) }
               </span>
             </div>
           ))}

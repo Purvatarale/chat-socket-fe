@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
 import React from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import arrow from "../../assets/images/arrow.svg";
 import { Button } from "../../modules/ui/button";
 import {
@@ -25,6 +25,7 @@ const Sidebar = ({flag}) => {
   const [contactsData, setContactsData] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(true);
   const user = useUser();
+  const router = useNavigate();
   const { categories: chatCategories } = user;
 
   const fetchChats = async () => {
@@ -104,7 +105,7 @@ const Sidebar = ({flag}) => {
     setCategoryDescription("");
     setOpenModal(false);
     if (data._id) {
-      redirect(`/${data._id}`);
+      router(`/${data._id}`);
     }
   };
 
@@ -125,11 +126,9 @@ const Sidebar = ({flag}) => {
       {searchedContacts?.length > 0 &&
         searchedContacts.map((contact) => {
           return (
-            <div to={`/${contact._id}`} key={contact.id} onClick={()=>{
-              redirect(`/${contact._id}`);
-            }}>
+            <Link to={`/${contact._id}`} key={contact.id}>
               <ChatContact contact={contact} categories={chatCategories} />
-            </div>
+            </Link>
           );
         })}
 

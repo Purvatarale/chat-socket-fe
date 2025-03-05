@@ -1,12 +1,23 @@
 import moment from "moment";
 import Badge from '../badge';
 import { ICON_MAPPER } from "../../constants";
+import {useUser} from "../../context/user.context";
+import { useEffect, useState } from "react";
 
-export default function ChatContact({ contact, categories }) {
+export default function ChatContact({ contact }) {
   const { image, name, lastMessage, updatedAt, description } = contact;
-  const category = categories.find(
-    (category) => category.id === contact.category
-  );
+  const {categories} = useUser();
+  const [category, setCategory] = useState(null);
+
+  console.log(contact)
+
+  useEffect(() => {
+    if(categories)
+      setCategory(categories.find(
+        (category) => category.id === contact.category
+      ))
+  }, [categories])
+
   return (
     <div className="flex flex-row gap-2 items-center py-1 px-2 hover:bg-[#00000110] transition-all cursor-pointer rounded">
       <img
