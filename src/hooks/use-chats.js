@@ -41,7 +41,7 @@ const useChatSocket = (chatId, messages, setMessages) => {
       console.log("Received message:", receivedMessage);
 
       const formattedMessage = {
-        senderData: receivedMessage.senderData,
+        agentData: receivedMessage.agentData,
         message: receivedMessage.message,
         timestamp: formatTime(new Date(receivedMessage.timestamp)),
         type: receivedMessage.type,
