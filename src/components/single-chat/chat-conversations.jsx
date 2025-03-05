@@ -34,14 +34,16 @@ export default function ChatConversations({ chats }) {
               >
                 {message.message}
               </span>
-              <span
-                className="text-[10px] text-gray-400"
+             <span
+                className=" flex gap-1 text-[10px] text-gray-400"
                 style={{
                   marginLeft: message.type === "incoming" ? "auto" : "0",
                   marginRight: message.type === "incoming" ? "0" : "auto",
                 }}
               >
                 {message.timestamp}
+{message.agentData && (
+  <span>{agentData.name}</span>) }
               </span>
             </div>
           ))}
