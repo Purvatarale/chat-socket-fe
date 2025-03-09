@@ -8,6 +8,7 @@ import { useUser } from "../../context/user.context";
 import Badge from "../badge";
 import useChatSocket from "../../hooks/use-chats.js";
 import { ICON_MAPPER } from "../../constants";
+import {useKeyPress} from "@rsxt/keypress";
 
 export default function SingleChat({ chatId, setFlag }) {
   const [initialData, setData] = useState(null);
@@ -40,6 +41,8 @@ export default function SingleChat({ chatId, setFlag }) {
     if(data)
       setFlag(count);
   },[data])
+
+  useKeyPress(()=>{ sendMessage(message); setMessage('')},[{keys:["Enter"]}])
 
   return (
     <div className="flex flex-col h-full bg-blue-100">
