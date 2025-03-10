@@ -1,4 +1,6 @@
 import { useRef, useEffect } from "react";
+import { CiClock2 } from "react-icons/ci";
+import { HiOutlineCheck } from "react-icons/hi";
 
 export default function ChatConversations({ chats }) {
   const containerRef = useRef(null);
@@ -35,16 +37,16 @@ export default function ChatConversations({ chats }) {
                 {message.message}
               </span>
              <span
-                className=" flex gap-1 text-[10px] text-gray-400"
+                className=" flex gap-1 text-[10px] text-gray-400 items-center"
                 style={{
                   marginLeft: message.type === "incoming" ? "auto" : "0",
                   marginRight: message.type === "incoming" ? "0" : "auto",
                 }}
               >
                 {message.timestamp}
-                {console.log(message)}
 {message.agentData?.name && (
   <span>⦿ {message.agentData.name}</span>) }
+    {message.status === 'pending' ? <CiClock2 /> : <HiOutlineCheck/> }
               </span>
             </div>
           ))}
